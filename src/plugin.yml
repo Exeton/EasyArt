@@ -1,0 +1,9 @@
+name: TextArt
+main: online.fireflower.text_art.TextArt
+author: Fire
+version: 1.0.0.0
+description: Used to create text based builds in game
+commands:
+  write:
+    permission: "TextArt.write"
+    permission-message: "You do not have permission textArt.write"

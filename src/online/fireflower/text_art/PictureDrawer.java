@@ -29,23 +29,14 @@ public class PictureDrawer implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        //Bukkit.getLogger().info("0");
-
         if (strings.length != 1 || !(commandSender instanceof Player))
             return false;
-
-        //Bukkit.getLogger().info("1");
 
         try{
             URL url = new URL(strings[0]);
             BufferedImage image;
 
-
-
-
-            //Bukkit.getLogger().info("12");
             try{
-                //Bukkit.getLogger().info("34");
                 image = ImageIO.read(url);
                 image = resize(image);
 
@@ -55,8 +46,21 @@ public class PictureDrawer implements CommandExecutor {
                 stopWatch = new StopWatch();
                 stopWatch.start();
 
-                drawImage(finalImage, (Player)commandSender);//ToDo add async suppourt
+                if (Bukkit.getPluginManager().isPluginEnabled("FastAsyncWorldEdit")){
+                    Bukkit.getLogger().info("Drawing with FAWE");
 
+                    Bukkit.getScheduler().runTaskAsynchronously(TextArt.main, new Runnable() {
+                        @Override
+                        public void run() {
+                            drawImage(finalImage, (Player)commandSender);
+                            commandSender.sendMessage(ChatColor.GOLD + "Finished drawing!");
+                        }
+                    });
+                }
+                else{
+                    drawImage(finalImage, (Player)commandSender);//ToDo add async suppourt
+                    commandSender.sendMessage(ChatColor.GOLD + "Finished drawing!");
+                }
 
             }catch (IOException e){
                 commandSender.sendMessage("IO exception when connecting to " + strings[0]);
@@ -68,7 +72,7 @@ public class PictureDrawer implements CommandExecutor {
             return true;
         }
 
-        commandSender.sendMessage(ChatColor.GOLD + "Finished drawing!");
+
         return true;
     }
 
@@ -126,8 +130,6 @@ public class PictureDrawer implements CommandExecutor {
 
     private void drawArt(Vector loc, World world, BufferedImage image, Vector xItterator, Vector yItterator){
 
-
-        Bukkit.getLogger().info("Drawing Art");
         int imageHeight = image.getHeight();
 
         EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(world), imageHeight * image.getWidth() + 5);
@@ -139,11 +141,10 @@ public class PictureDrawer implements CommandExecutor {
                 Vector offSet = xItterator.clone().multiply(i).add(yItterator.clone().multiply(j));
                 //Location worldLoc = new Location(world, loc.getBlockX() + offSet.getBlockX(), loc.getBlockY() + offSet.getBlockY(), loc.getBlockZ() + offSet.getBlockZ());
 
-
-
                 com.sk89q.worldedit.Vector location = new com.sk89q.worldedit.Vector(loc.getBlockX() + offSet.getBlockX(), loc.getBlockY() + offSet.getBlockY(), loc.getBlockZ() + offSet.getBlockZ());
 
                 try{
+                    //BaseBlock baseBlock = editSession.getBlock()
                     editSession.setBlock(location, new BaseBlock(Material.STAINED_CLAY.getId(), 15 - mat));
                 }catch (Exception e){
                     System.out.println(e.toString());
@@ -151,11 +152,6 @@ public class PictureDrawer implements CommandExecutor {
                 }
             }
         }
-
-
-        Bukkit.getLogger().info( "" + stopWatch.getTime());
-
-        Bukkit.getLogger().info("Commiting");
         editSession.commit();
     }
 

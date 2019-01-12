@@ -7,13 +7,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class TextArtCommand implements CommandExecutor {
 
-    Font font = new Font("Arial", Font.PLAIN, 20);
+    Font font = new Font("Serif", Font.PLAIN, 20);
     FontMetrics fontMetrics = Toolkit.getDefaultToolkit().getFontMetrics(font); //Font.getLineMetrics does not do what's needed.
     private static final int buildOffset = 35;
 
@@ -85,6 +88,13 @@ public class TextArtCommand implements CommandExecutor {
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)
                 result[i][j] = (image.getRGB(i, j) == -1);
+
+
+        try {
+            ImageIO.write(image, "png", new File("C:\\Users\\Ben\\Desktop\\Spigot 1.8.8\\textArt.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         graphics.dispose();
         return result;

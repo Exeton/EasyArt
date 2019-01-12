@@ -1,7 +1,7 @@
 # EasyDrawing
 
 ## Intro
-This is a spigot plugin used to generate text and image based builds. You can draw text using "/draw Text" and you can create images using "/draw url". Note that the url must point to the image. You also may need to use a link shortener beacuse Minecraft limits it's message size. Your plugin will automatically be resized. More resize options will be added in the future.
+Easy Art is a tool designed to make drawing pixel art and text easier. You can draw text using "/draw Text" and you can create images using "/draw url". Note that the url must point to the image. You also may need to use a link shortener beacuse Minecraft limits it's message size. Your plugin will automatically be resized. More resize options will be added in the future.
 
 ## Dependencies
 

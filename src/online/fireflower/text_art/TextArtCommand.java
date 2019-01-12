@@ -1,18 +1,17 @@
 package online.fireflower.text_art;
 
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class TextArtCommand implements CommandExecutor {
 
@@ -89,12 +88,6 @@ public class TextArtCommand implements CommandExecutor {
             for (int j = 0; j < height; j++)
                 result[i][j] = (image.getRGB(i, j) == -1);
 
-
-        try {
-            ImageIO.write(image, "png", new File("C:\\Users\\Ben\\Desktop\\Spigot 1.8.8\\textArt.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         graphics.dispose();
         return result;
